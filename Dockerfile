@@ -1,19 +1,15 @@
-# Sử dụng một base image của Java (ví dụ: OpenJDK 17)
-# Đây là image nền tảng đã có sẵn Java Runtime Environment
+# Sử dụng base image của Java
 FROM openjdk:17-jdk-slim
 
 # Đặt thư mục làm việc bên trong container
 WORKDIR /app
 
 # Sao chép file .jar đã được build vào container
-# 'target/elector-app-backend-0.0.1-SNAPSHOT.jar' là đường dẫn mặc định
-# của file JAR khi bạn build dự án bằng Maven.
-# Thay đổi tên file nếu cần thiết.
-# 'java -jar app.jar' sẽ chạy file JAR đã được sao chép
+# Đảm bảo tên file này chính xác với file được tạo ra trong thư mục target/
 COPY target/ElcApp-0.0.1-SNAPSHOT.jar app.jar
-# Mở cổng 8080 để ứng dụng có thể truy cập từ bên ngoài container
+
+# Mở cổng 8080 của ứng dụng
 EXPOSE 8080
 
-# Lệnh để chạy ứng dụng khi container khởi động
-
+# Lệnh để chạy ứng dụng
 ENTRYPOINT ["java", "-jar", "app.jar"]
