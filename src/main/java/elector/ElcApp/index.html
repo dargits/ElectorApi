@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Election System API Documentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .code-block {
+            background: #1a1a2e;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+        }
+        .method-get { @apply bg-green-500 text-white; }
+        .method-post { @apply bg-blue-500 text-white; }
+        .method-put { @apply bg-yellow-500 text-white; }
+        .method-delete { @apply bg-red-500 text-white; }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg py-8 px-6">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-4xl font-bold mb-2">Election System API</h1>
+            <p class="text-lg opacity-90">Interactive API Documentation & Testing Tool</p>
+            <div class="mt-4 flex items-center space-x-4">
+                <span class="glass px-3 py-1 rounded-full text-sm">Version 1.0</span>
+                <span class="glass px-3 py-1 rounded-full text-sm">Spring Boot</span>
+                <span class="glass px-3 py-1 rounded-full text-sm">REST API</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-gray-800 py-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <ul class="flex space-x-6 overflow-x-auto">
+                <li><a href="#users" class="hover:text-blue-400 transition-colors">Users</a></li>
+                <li><a href="#polls" class="hover:text-blue-400 transition-colors">Polls</a></li>
+                <li><a href="#votes" class="hover:text-blue-400 transition-colors">Votes</a></li>
+                <li><a href="#models" class="hover:text-blue-400 transition-colors">Models</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-6 py-8">
+        <!-- Base URL Configuration -->
+        <div class="glass p-6 rounded-lg mb-8">
+            <h3 class="text-xl font-semibold mb-4">API Configuration</h3>
+            <div class="flex items-center space-x-4">
+                <label class="text-sm font-medium">Base URL:</label>
+                <input type="text" id="baseUrl" value="http://localhost:8080" 
+                       class="bg-gray-700 px-3 py-2 rounded border border-gray-600 text-white flex-1">
+                <button onclick="updateBaseUrl()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition-colors">
+                    Update
+                </button>
+            </div>
+        </div>
+
+        <!-- Users Section -->
+        <section id="users" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 flex items-center">
+                <span class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-3 text-sm">👤</span>
+                User Management
+            </h2>
+
+            <!-- User Registration -->
+            <div class="glass p-6 rounded-lg mb-6 hover-scale animate-fade-in">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold">Register User</h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="method-post px-3 py-1 rounded text-sm font-mono">POST</span>
+                        <code class="bg-gray-800 px-2 py-1 rounded">/api/users/register</code>
+                    </div>
+                </div>
+                
+                <p class="text-gray-400 mb-4">Create a new user account in the system.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold mb-2">Request Body:</h4>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+  "username": "johndoe",
+  "password": "securepassword123",
+  "fullName": "John Doe"
+}</code></pre>
+                        </div>
+                        <textarea id="userRegisterBody" class="w-full bg-gray-800 p-3 rounded mt-2 h-24 font-mono text-sm">
+{
+  "username": "johndoe",
+  "password": "securepassword123",
+  "fullName": "John Doe"
+}</textarea>
+                        <button onclick="testApi('POST', '/api/users/register', 'userRegisterBody', 'userRegisterResponse')" 
+                                class="mt-2 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition-colors">
+                            Test API
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-2">Response:</h4>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+  "id": 1,
+  "username": "johndoe",
+  "fullName": "John Doe",
+  "isAdmin": false
+}</code></pre>
+                        </div>
+                        <div id="userRegisterResponse" class="mt-2 p-3 bg-gray-800 rounded min-h-[60px] font-mono text-sm">
+                            <span class="text-gray-500">Response will appear here...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-3 bg-yellow-900/20 rounded border border-yellow-500/30">
+                    <p class="text-yellow-200 text-sm">
+                        <strong>Status Codes:</strong> 201 Created (success), 409 Conflict (username exists)
+                    </p>
+                </div>
+            </div>
+
+            <!-- User Login -->
+            <div class="glass p-6 rounded-lg mb-6 hover-scale animate-fade-in">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold">User Login</h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="method-post px-3 py-1 rounded text-sm font-mono">POST</span>
+                        <code class="bg-gray-800 px-2 py-1 rounded">/api/users/login</code>
+                    </div>
+                </div>
+                
+                <p class="text-gray-400 mb-4">Authenticate user credentials and get user information.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold mb-2">Request Body:</h4>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+  "username": "johndoe",
+  "password": "securepassword123"
+}</code></pre>
+                        </div>
+                        <textarea id="userLoginBody" class="w-full bg-gray-800 p-3 rounded mt-2 h-20 font-mono text-sm">
+{
+  "username": "johndoe",
+  "password": "securepassword123"
+}</textarea>
+                        <button onclick="testApi('POST', '/api/users/login', 'userLoginBody', 'userLoginResponse')" 
+                                class="mt-2 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition-colors">
+                            Test API
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-2">Response:</h4>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+  "id": 1,
+  "username": "johndoe",
+  "fullName": "John Doe",
+  "isAdmin": false
+}</code></pre>
+                        </div>
+                        <div id="userLoginResponse" class="mt-2 p-3 bg-gray-800 rounded min-h-[60px] font-mono text-sm">
+                            <span class="text-gray-500">Response will appear here...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-3 bg-yellow-900/20 rounded border border-yellow-500/30">
+                    <p class="text-yellow-200 text-sm">
+                        <strong>Status Codes:</strong> 200 OK (success), 401 Unauthorized (invalid credentials)
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Polls Section -->
+        <section id="polls" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 flex items-center">
+                <span class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center mr-3 text-sm">📊</span>
+                Poll Management
+            </h2>
+
+            <!-- Create Poll -->
+            <div class="glass p-6 rounded-lg mb-6 hover-scale animate-fade-in">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold">Create Poll</h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="method-post px-3 py-1 rounded text-sm font-mono">POST</span>
+                        <code class="bg-gray-800 px-2 py-1 rounded">/api/polls/create</code>
+                    </div>
+                </div>
+                
+                <p class="text-gray-400 mb-4">Create a new poll with multiple options for voting.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold mb-2">Request Body:</h4>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+  "title": "Favorite Programming Language",
+  "description": "Vote for your favorite programming language",
+  "userId": 1,
+  "optionTexts": [
+    "Java",
+    "Python",
+    "JavaScript",
+    "C++"
+  ]
+}</code></pre>
+                        </div>
+                        <textarea id="pollCreateBody" class="w-full bg-gray-800 p-3 rounded mt-2 h-32 font-mono text-sm">
+{
+  "title": "Favorite Programming Language",
+  "description": "Vote for your favorite programming language",
+  "userId": 1,
+  "optionTexts": [
+    "Java",
+    "Python",
+    "JavaScript",
+    "C++"
+  ]
+}</textarea>
+                        <button onclick="testApi('POST', '/api/polls/create', 'pollCreateBody', 'pollCreateResponse')" 
+                                class="mt-2 bg-green-600 hover:bg-green-700 px-4 py-2 rounded transition-colors">
+                            Test API
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-2">Response:</h4>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+  "id": 1,
+  "title": "Favorite Programming Language",
+  "description": "Vote for your favorite programming language",
+  "createdAt": "2024-01-15T10:30:00",
+  "isActive": true,
+  "options": [
+    {
+      "id": 1,
+      "optionText": "Java"
+    },
+    {
+      "id": 2,
+      "optionText": "Python"
+    }
+  ]
+}</code></pre>
+                        </div>
+                        <div id="pollCreateResponse" class="mt-2 p-3 bg-gray-800 rounded min-h-[60px] font-mono text-sm">
+                            <span class="text-gray-500">Response will appear here...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-3 bg-yellow-900/20 rounded border border-yellow-500/30">
+                    <p class="text-yellow-200 text-sm">
+                        <strong>Status Codes:</strong> 201 Created (success)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Get Active Polls -->
+            <div class="glass p-6 rounded-lg mb-6 hover-scale animate-fade-in">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold">Get Active Polls</h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="method-get px-3 py-1 rounded text-sm font-mono">GET</span>
+                        <code class="bg-gray-800 px-2 py-1 rounded">/api/polls</code>
+                    </div>
+                </div>
+                
+                <p class="text-gray-400 mb-4">Retrieve all active polls in the system.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold mb-2">Request:</h4>
+                        <p class="text-gray-400 text-sm mb-4">No request body required for this endpoint.</p>
+                        <button onclick="testApi('GET', '/api/polls', null, 'pollsGetResponse')" 
+                                class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded transition-colors">
+                            Test API
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-2">Response:</h4>
+                        <div class="code-block">
+                            <pre><code class="language-json">[
+  {
+    "id": 1,
+    "title": "Favorite Programming Language",
+    "description": "Vote for your favorite programming language",
+    "createdAt": "2024-01-15T10:30:00",
+    "isActive": true,
+    "options": [
+      {
+        "id": 1,
+        "optionText": "Java"
+      }
+    ]
+  }
+]</code></pre>
+                        </div>
+                        <div id="pollsGetResponse" class="mt-2 p-3 bg-gray-800 rounded min-h-[60px] font-mono text-sm">
+                            <span class="text-gray-500">Response will appear here...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Get Poll Details -->
+            <div class="glass p-6 rounded-lg mb-6 hover-scale animate-fade-in">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold">Get Poll Details</h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="method-get px-3 py-1 rounded text-sm font-mono">GET</span>
+                        <code class="bg-gray-800 px-2 py-1 rounded">/api/polls/{id}</code>
+                    </div>
+                </div>
+                
+                <p class="text-gray-400 mb-4">Get detailed information about a specific poll.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold mb-2">Parameters:</h4>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium mb-1">Poll ID:</label>
+                            <input type="number" id="pollIdDetail" value="1" 
+                                   class="bg-gray-800 px-3 py-2 rounded border border-gray-600 text-white w-full">
+                        </div>
+                        <button onclick="testApiWithParam('GET', '/api/polls/', 'pollIdDetail', 'pollDetailResponse')" 
+                                class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded transition-colors">
+                            Test API
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-2">Response:</h4>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+  "id": 1,
+  "title": "Favorite Programming Language",
+  "description": "Vote for your favorite programming language",
+  "createdAt": "2024-01-15T10:30:00",
+  "isActive": true,
+  "options": [
+    {
+      "id": 1,
+      "optionText": "Java"
+    }
+  ]
+}</code></pre>
+                        </div>
+                        <div id="pollDetailResponse" class="mt-2 p-3 bg-gray-800 rounded min-h-[60px] font-mono text-sm">
+                            <span class="text-gray-500">Response will appear here...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-3 bg-yellow-900/20 rounded border border-yellow-500/30">
+                    <p class="text-yellow-200 text-sm">
+                        <strong>Status Codes:</strong> 200 OK (success), 404 Not Found (poll not exists)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Get Poll Results -->
+            <div class="glass p-6 rounded-lg mb-6 hover-scale animate-fade-in">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold">Get Poll Results</h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="method-get px-3 py-1 rounded text-sm font-mono">GET</span>
+                        <code class="bg-gray-800 px-2 py-1 rounded">/api/polls/{id}/results</code>
+                    </div>
+                </div>
+                
+                <p class="text-gray-400 mb-4">Get voting results for a specific poll.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold mb-2">Parameters:</h4>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium mb-1">Poll ID:</label>
+                            <input type="number" id="pollIdResults" value="1" 
+                                   class="bg-gray-800 px-3 py-2 rounded border border-gray-600 text-white w-full">
+                        </div>
+                        <button onclick="testApiWithParam('GET', '/api/polls/', 'pollIdResults', 'pollResultsResponse', '/results')" 
+                                class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded transition-colors">
+                            Test API
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-2">Response:</h4>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+  "pollId": 1,
+  "pollTitle": "Favorite Programming Language",
+  "results": [
+    {
+      "optionId": 1,
+      "optionText": "Java",
+      "voteCount": 15
+    },
+    {
+      "optionId": 2,
+      "optionText": "Python",
+      "voteCount": 12
+    }
+  ]
+}</code></pre>
+                        </div>
+                        <div id="pollResultsResponse" class="mt-2 p-3 bg-gray-800 rounded min-h-[60px] font-mono text-sm">
+                            <span class="text-gray-500">Response will appear here...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Votes Section -->
+        <section id="votes" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 flex items-center">
+                <span class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center mr-3 text-sm">🗳️</span>
+                Vote Management
+            </h2>
+
+            <!-- Submit Vote -->
+            <div class="glass p-6 rounded-lg mb-6 hover-scale animate-fade-in">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold">Submit Vote</h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="method-post px-3 py-1 rounded text-sm font-mono">POST</span>
+                        <code class="bg-gray-800 px-2 py-1 rounded">/api/votes/submit</code>
+                    </div>
+                </div>
+                
+                <p class="text-gray-400 mb-4">Submit a vote for a specific poll option.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold mb-2">Request Body:</h4>
+                        <div class="code-block">
+                            <pre><code class="language-json">{
+  "pollId": 1,
+  "optionId": 2,
+  "userId": 1
+}</code></pre>
+                        </div>
+                        <textarea id="voteSubmitBody" class="w-full bg-gray-800 p-3 rounded mt-2 h-20 font-mono text-sm">
+{
+  "pollId": 1,
+  "optionId": 2,
+  "userId": 1
+}</textarea>
+                        <button onclick="testApi('POST', '/api/votes/submit', 'voteSubmitBody', 'voteSubmitResponse')" 
+                                class="mt-2 bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded transition-colors">
+                            Test API
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-2">Response:</h4>
+                        <p class="text-gray-400 text-sm mb-4">No response body. Status code indicates success or failure.</p>
+                        <div id="voteSubmitResponse" class="mt-2 p-3 bg-gray-800 rounded min-h-[60px] font-mono text-sm">
+                            <span class="text-gray-500">Response will appear here...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-3 bg-yellow-900/20 rounded border border-yellow-500/30">
+                    <p class="text-yellow-200 text-sm">
+                        <strong>Status Codes:</strong> 201 Created (success), 400 Bad Request (already voted or invalid data)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Check Vote Status -->
+            <div class="glass p-6 rounded-lg mb-6 hover-scale animate-fade-in">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold">Check Vote Status</h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="method-get px-3 py-1 rounded text-sm font-mono">GET</span>
+                        <code class="bg-gray-800 px-2 py-1 rounded">/api/votes/hasVoted/{userId}/{pollId}</code>
+                    </div>
+                </div>
+                
+                <p class="text-gray-400 mb-4">Check if a user has already voted in a specific poll.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold mb-2">Parameters:</h4>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-1">User ID:</label>
+                                <input type="number" id="voteUserId" value="1" 
+                                       class="bg-gray-800 px-3 py-2 rounded border border-gray-600 text-white w-full">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Poll ID:</label>
+                                <input type="number" id="votePollId" value="1" 
+                                       class="bg-gray-800 px-3 py-2 rounded border border-gray-600 text-white w-full">
+                            </div>
+                        </div>
+                        <button onclick="testVoteStatus()" 
+                                class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded transition-colors">
+                            Test API
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-2">Response:</h4>
+                        <div class="code-block">
+                            <pre><code class="language-json">true</code></pre>
+                        </div>
+                        <div id="voteStatusResponse" class="mt-2 p-3 bg-gray-800 rounded min-h-[60px] font-mono text-sm">
+                            <span class="text-gray-500">Response will appear here...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Models Section -->
+        <section id="models" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 flex items-center">
+                <span class="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center mr-3 text-sm">📋</span>
+                Data Models
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Request DTOs -->
+                <div class="glass p-6 rounded-lg hover-scale animate-fade-in">
+                    <h3 class="text-xl font-semibold mb-4">Request DTOs</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-blue-400">UserRegistrationDto</h4>
+                            <div class="code-block text-sm">
+                                <pre><code class="language-json">{
+  "username": "string",
+  "password": "string",
+  "fullName": "string"
+}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-blue-400">UserLoginDto</h4>
+                            <div class="code-block text-sm">
+                                <pre><code class="language-json">{
+  "username": "string",
+  "password": "string"
+}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-blue-400">PollCreateDto</h4>
+                            <div class="code-block text-sm">
+                                <pre><code class="language-json">{
+  "title": "string",
+  "description": "string",
+  "userId": "integer",
+  "optionTexts": ["string"]
+}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-blue-400">VoteSubmitDto</h4>
+                            <div class="code-block text-sm">
+                                <pre><code class="language-json">{
+  "pollId": "integer",
+  "optionId": "integer",
+  "userId": "integer"
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Response DTOs -->
+                <div class="glass p-6 rounded-lg hover-scale animate-fade-in">
+                    <h3 class="text-xl font-semibold mb-4">Response DTOs</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-green-400">UserResponseDto</h4>
+                            <div class="code-block text-sm">
+                                <pre><code class="language-json">{
+  "id": "integer",
+  "username": "string",
+  "fullName": "string",
+  "isAdmin": "boolean"
+}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-green-400">PollResponseDto</h4>
+                            <div class="code-block text-sm">
+                                <pre><code class="language-json">{
+  "id": "integer",
+  "title": "string",
+  "description": "string",
+  "createdAt": "datetime",
+  "isActive": "boolean",
+  "options": [
+    {
+      "id": "integer",
+      "optionText": "string"
+    }
+  ]
+}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-green-400">PollResultDto</h4>
+                            <div class="code-block text-sm">
+                                <pre><code class="language-json">{
+  "pollId": "integer",
+  "pollTitle": "string",
+  "results": [
+    {
+      "optionId": "integer",
+      "optionText": "string",
+      "voteCount": "long"
+    }
+  ]
+}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-green-400">OptionResponseDto</h4>
+                            <div class="code-block text-sm">
+                                <pre><code class="language-json">{
+  "id": "integer",
+  "optionText": "string"
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entity Models -->
+            <div class="glass p-6 rounded-lg mt-6 hover-scale animate-fade-in">
+                <h3 class="text-xl font-semibold mb-4">Database Entity Models</h3>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-purple-400">User Entity</h4>
+                            <div class="code-block text-sm">
+                                <pre><code class="language-json">{
+  "id": "integer (auto-generated)",
+  "username": "string (unique)",
+  "password": "string",
+  "isAdmin": "boolean (default: false)",
+  "fullName": "string",
+  "createdAt": "datetime (auto)"
+}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-purple-400">Poll Entity</h4>
+                            <div class="code-block text-sm">
+                                <pre><code class="language-json">{
+  "id": "integer (auto-generated)",
+  "title": "string",
+  "description": "text",
+  "createdAt": "datetime (auto)",
+  "isActive": "boolean (default: true)",
+  "userId": "integer",
+  "options": "List<Option>"
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-purple-400">Option Entity</h4>
+                            <div class="code-block text-sm">
+                                <pre><code class="language-json">{
+  "id": "integer (auto-generated)",
+  "optionText": "string",
+  "poll": "Poll (foreign key)"
+}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-purple-400">Vote Entity</h4>
+                            <div class="code-block text-sm">
+                                <pre><code class="language-json">{
+  "id": "integer (auto-generated)",
+  "poll": "Poll (foreign key)",
+  "option": "Option (foreign key)",
+  "user": "User (foreign key)",
+  "votedAt": "datetime (auto)"
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Testing Tools -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 flex items-center">
+                <span class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center mr-3 text-sm">🔧</span>
+                API Testing Tools
+            </h2>
+
+            <div class="glass p-6 rounded-lg hover-scale animate-fade-in">
+                <h3 class="text-xl font-semibold mb-4">Custom API Tester</h3>
+                <p class="text-gray-400 mb-4">Test any endpoint with custom parameters and request bodies.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-1">HTTP Method:</label>
+                                <select id="customMethod" class="bg-gray-800 px-3 py-2 rounded border border-gray-600 text-white w-full">
+                                    <option value="GET">GET</option>
+                                    <option value="POST">POST</option>
+                                    <option value="PUT">PUT</option>
+                                    <option value="DELETE">DELETE</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Endpoint:</label>
+                                <input type="text" id="customEndpoint" placeholder="/api/polls" 
+                                       class="bg-gray-800 px-3 py-2 rounded border border-gray-600 text-white w-full">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Request Body (JSON):</label>
+                                <textarea id="customBody" placeholder='{"key": "value"}' 
+                                          class="w-full bg-gray-800 p-3 rounded h-24 font-mono text-sm"></textarea>
+                            </div>
+                            
+                            <button onclick="testCustomApi()" 
+                                    class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded transition-colors w-full">
+                                Test Custom API
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-2">Response:</h4>
+                        <div id="customApiResponse" class="p-3 bg-gray-800 rounded min-h-[200px] font-mono text-sm">
+                            <span class="text-gray-500">Response will appear here...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status Codes Reference -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 flex items-center">
+                <span class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center mr-3 text-sm">📜</span>
+                HTTP Status Codes Reference
+            </h2>
+
+            <div class="glass p-6 rounded-lg hover-scale animate-fade-in">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3 text-green-400">Success Codes</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="font-mono">200</span>
+                                <span>OK - Request successful</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-mono">201</span>
+                                <span>Created - Resource created</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3 text-yellow-400">Client Error Codes</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="font-mono">400</span>
+                                <span>Bad Request - Invalid data</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-mono">401</span>
+                                <span>Unauthorized - Invalid credentials</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-mono">404</span>
+                                <span>Not Found - Resource not exists</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-mono">409</span>
+                                <span>Conflict - Resource already exists</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3 text-red-400">Server Error Codes</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="font-mono">500</span>
+                                <span>Internal Server Error</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-mono">503</span>
+                                <span>Service Unavailable</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-gray-400">Election System API Documentation v1.0</p>
+            <p class="text-gray-500 text-sm mt-2">Built with Spring Boot, documented with ❤️</p>
+        </div>
+    </footer>
+
+    <script>
+        let baseUrl = 'http://localhost:8080';
+
+        function updateBaseUrl() {
+            baseUrl = document.getElementById('baseUrl').value;
+            showNotification('Base URL updated to: ' + baseUrl, 'success');
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-4 py-2 rounded shadow-lg z-50 ${
+                type === 'success' ? 'bg-green-600' : 
+                type === 'error' ? 'bg-red-600' : 'bg-blue-600'
+            } text-white`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function formatResponse(response, status) {
+            const timestamp = new Date().toLocaleTimeString();
+            const statusColor = status >= 200 && status < 300 ? 'text-green-400' : 
+                               status >= 400 && status < 500 ? 'text-yellow-400' : 'text-red-400';
+            
+            let formattedResponse = `<div class="mb-2">
+                <span class="text-gray-400">[${timestamp}]</span> 
+                <span class="${statusColor}">Status: ${status}</span>
+            </div>`;
+            
+            if (response) {
+                try {
+                    const jsonResponse = typeof response === 'string' ? JSON.parse(response) : response;
+                    formattedResponse += `<pre><code>${JSON.stringify(jsonResponse, null, 2)}</code></pre>`;
+                } catch (e) {
+                    formattedResponse += `<pre><code>${response}</code></pre>`;
+                }
+            }
+            
+            return formattedResponse;
+        }
+
+        async function testApi(method, endpoint, bodyElementId, responseElementId) {
+            const responseElement = document.getElementById(responseElementId);
+            responseElement.innerHTML = '<span class="text-yellow-400">Loading...</span>';
+            
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                };
+                
+                if (bodyElementId && method !== 'GET') {
+                    const bodyElement = document.getElementById(bodyElementId);
+                    if (bodyElement) {
+                        options.body = bodyElement.value;
+                    }
+                }
+                
+                const response = await fetch(baseUrl + endpoint, options);
+                const responseText = await response.text();
+                
+                responseElement.innerHTML = formatResponse(responseText, response.status);
+                
+                if (response.ok) {
+                    showNotification('API call successful!', 'success');
+                } else {
+                    showNotification(`API call failed with status ${response.status}`, 'error');
+                }
+                
+            } catch (error) {
+                responseElement.innerHTML = formatResponse(`Error: ${error.message}`, 0);
+                showNotification('API call failed: ' + error.message, 'error');
+            }
+        }
+
+        async function testApiWithParam(method, baseEndpoint, paramElementId, responseElementId, suffix = '') {
+            const paramElement = document.getElementById(paramElementId);
+            const paramValue = paramElement.value;
+            const fullEndpoint = baseEndpoint + paramValue + suffix;
+            
+            await testApi(method, fullEndpoint, null, responseElementId);
+        }
+
+        async function testVoteStatus() {
+            const userId = document.getElementById('voteUserId').value;
+            const pollId = document.getElementById('votePollId').value;
+            const endpoint = `/api/votes/hasVoted/${userId}/${pollId}`;
+            
+            await testApi('GET', endpoint, null, 'voteStatusResponse');
+        }
+
+        async function testCustomApi() {
+            const method = document.getElementById('customMethod').value;
+            const endpoint = document.getElementById('customEndpoint').value;
+            const body = document.getElementById('customBody').value;
+            
+            const responseElement = document.getElementById('customApiResponse');
+            responseElement.innerHTML = '<span class="text-yellow-400">Loading...</span>';
+            
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                };
+                
+                if (body && method !== 'GET') {
+                    options.body = body;
+                }
+                
+                const response = await fetch(baseUrl + endpoint, options);
+                const responseText = await response.text();
+                
+                responseElement.innerHTML = formatResponse(responseText, response.status);
+                
+                if (response.ok) {
+                    showNotification('Custom API call successful!', 'success');
+                } else {
+                    showNotification(`Custom API call failed with status ${response.status}`, 'error');
+                }
+                
+            } catch (error) {
+                responseElement.innerHTML = formatResponse(`Error: ${error.message}`, 0);
+                showNotification('Custom API call failed: ' + error.message, 'error');
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize Prism.js for syntax highlighting
+        if (typeof Prism !== 'undefined') {
+            Prism.highlightAll();
+        }
+
+        // Add loading animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in');
+                    }
+                });
+            });
+
+            sections.forEach((section) => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
