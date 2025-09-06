@@ -9,11 +9,11 @@ WORKDIR /app
 # 'target/elector-app-backend-0.0.1-SNAPSHOT.jar' là đường dẫn mặc định
 # của file JAR khi bạn build dự án bằng Maven.
 # Thay đổi tên file nếu cần thiết.
-COPY target/ElcApp-0.0.1-SNAPSHOT.war app.war
-
+# 'java -jar app.jar' sẽ chạy file JAR đã được sao chép
+COPY target/ElcApp-0.0.1-SNAPSHOT.jar app.jar
 # Mở cổng 8080 để ứng dụng có thể truy cập từ bên ngoài container
 EXPOSE 8080
 
 # Lệnh để chạy ứng dụng khi container khởi động
-# 'java -jar app.jar' sẽ chạy file JAR đã được sao chép
+
 ENTRYPOINT ["java", "-jar", "app.jar"]
