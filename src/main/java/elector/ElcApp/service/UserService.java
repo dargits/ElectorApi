@@ -25,7 +25,7 @@ public class UserService {
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword()); // Cần mã hóa mật khẩu trong thực tế
         user.setFullName(userDto.getFullName());
-        user.setIsAdmin(false);
+    user.setIsAdmin(0);
 
         User savedUser = userRepository.save(user);
 
@@ -33,7 +33,7 @@ public class UserService {
         responseDto.setId(savedUser.getId());
         responseDto.setUsername(savedUser.getUsername());
         responseDto.setFullName(savedUser.getFullName());
-        responseDto.setIsAdmin(savedUser.getIsAdmin());
+    responseDto.setIsAdmin(savedUser.getIsAdmin());
 
         return responseDto;
     }

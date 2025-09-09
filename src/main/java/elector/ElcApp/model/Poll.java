@@ -28,7 +28,7 @@ public class Poll {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "IsActive", nullable = false)
-    private Boolean isActive = true;
+    private Integer isActive = 1;
 
     @Column(name = "UserID", nullable = false)
     private Integer userId;

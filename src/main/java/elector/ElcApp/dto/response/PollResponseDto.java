@@ -10,6 +10,6 @@ public class PollResponseDto {
     private String title;
     private String description;
     private LocalDateTime createdAt;
-    private Boolean isActive;
+    private Integer isActive;
     private List<OptionResponseDto> options;
 }

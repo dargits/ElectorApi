@@ -1,3 +1,5 @@
+
+
 package elector.ElcApp.controller;
 
 
@@ -48,6 +50,39 @@ public class PollController {
         PollResultDto results = pollService.getPollResults(id);
         if (results != null) {
             return new ResponseEntity<>(results, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePoll(@PathVariable Integer id) {
+        boolean deleted = pollService.deletePoll(id);
+        if (deleted) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/{id}/lock")
+    public ResponseEntity<Void> lockPoll(@PathVariable Integer id) {
+        boolean locked = pollService.lockPoll(id);
+        if (locked) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/all")
+    public ResponseEntity<List<PollResponseDto>> getAllPolls() {
+        List<PollResponseDto> polls = pollService.getAllPolls();
+        return new ResponseEntity<>(polls, HttpStatus.OK);
+    }
+    @PutMapping("/{id}/unlock")
+    public ResponseEntity<Void> unlockPoll(@PathVariable Integer id) {
+        boolean unlocked = pollService.unlockPoll(id);
+        if (unlocked) {
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

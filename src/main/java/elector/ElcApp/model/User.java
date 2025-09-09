@@ -22,7 +22,7 @@ public class User {
     private String password;
 
     @Column(name = "IsAdmin", nullable = false)
-    private Boolean isAdmin = false;
+    private Integer isAdmin = 0;
 
     @Column(name = "FullName")
     private String fullName;

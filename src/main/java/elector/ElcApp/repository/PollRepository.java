@@ -15,5 +15,5 @@ public interface PollRepository extends JpaRepository<Poll, Integer> {
      * Tìm kiếm tất cả các cuộc bình chọn đang hoạt động (isActive = true).
      * @return Danh sách các đối tượng Poll.
      */
-    List<Poll> findByIsActiveTrue();
+    List<Poll> findByIsActive(Integer isActive);
 }

@@ -7,5 +7,5 @@ public class UserResponseDto {
     private Integer id;
     private String username;
     private String fullName;
-    private Boolean isAdmin;
+    private Integer isAdmin;
 }

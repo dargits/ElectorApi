@@ -1,3 +1,4 @@
+
 package elector.ElcApp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,10 +56,10 @@ public class PollService {
     }
 
     public List<PollResponseDto> getActivePolls() {
-        List<Poll> activePolls = pollRepository.findByIsActiveTrue();
-        return activePolls.stream()
-                .map(this::mapToPollResponseDto)
-                .collect(Collectors.toList());
+    List<Poll> activePolls = pollRepository.findByIsActive(1);
+    return activePolls.stream()
+        .map(this::mapToPollResponseDto)
+        .collect(Collectors.toList());
     }
 
     public PollResponseDto getPollDetails(Integer pollId) {
@@ -90,7 +91,7 @@ public class PollService {
         resultDto.setResults(results);
         return resultDto;
     }
-
+    
     private PollResponseDto mapToPollResponseDto(Poll poll) {
         List<OptionResponseDto> optionDtos = poll.getOptions().stream()
                 .map(option -> {
@@ -106,9 +107,36 @@ public class PollService {
         responseDto.setTitle(poll.getTitle());
         responseDto.setDescription(poll.getDescription());
         responseDto.setCreatedAt(poll.getCreatedAt());
-        responseDto.setIsActive(poll.getIsActive());
+    responseDto.setIsActive(poll.getIsActive());
         responseDto.setOptions(optionDtos);
 
         return responseDto;
+    }
+    public boolean deletePoll(Integer pollId) {
+        if (pollRepository.existsById(pollId)) {
+            pollRepository.deleteById(pollId);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean lockPoll(Integer pollId) {
+        return pollRepository.findById(pollId).map(poll -> {
+            poll.setIsActive(0);
+            pollRepository.save(poll);
+            return true;
+        }).orElse(false);
+    }
+    public List<PollResponseDto> getAllPolls() {
+        return pollRepository.findAll().stream()
+            .map(this::mapToPollResponseDto)
+            .collect(Collectors.toList());
+    }
+    public boolean unlockPoll(Integer pollId) {
+        return pollRepository.findById(pollId).map(poll -> {
+            poll.setIsActive(1);
+            pollRepository.save(poll);
+            return true;
+        }).orElse(false);
     }
 }
